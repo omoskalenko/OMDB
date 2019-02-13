@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-
 function public( req, res ) {
   const extention = path.extname(req.url);
   const filename = req.url.slice(1);
@@ -27,8 +26,7 @@ function public( req, res ) {
 
   res.statusCode = 200;
   res.setHeader('Content-Type', contentType);
-
-  // const stream = fs.createReadStream(path.join(__dirname, '..', 'public', req.url));
+  
   const stream = fs.createReadStream(path.resolve('public', filename));
 
   stream.pipe(res);
