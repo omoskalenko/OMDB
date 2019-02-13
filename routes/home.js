@@ -1,23 +1,17 @@
 const fs = require('fs');
 const path = require('path');
+const render = require('../lib/render');
 
 function home(req, res) {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/html');
-
-  const stream = fs.createReadStream(path.resolve('public', 'index.html'));
-
-  stream.pipe(res);
-
-  stream.on('error', error => {
-    if (error.code === 'ENOENT') {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end('404. Not found');
-    } else {
-      res.writeHead(500, { 'Content-Type': 'text/plain' });
-      res.end(error.message);
+  render('index.html', null, (error, html) => {
+    if (error) {
+      res.writeHead(500, { 'Content-Type' : 'text/plain' });
+      return res.end(error.message);
     }
-  });
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');  
+    res.end(html);
+  })
   
 }
 
