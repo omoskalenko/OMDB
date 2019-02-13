@@ -34,6 +34,7 @@ function search(req, res) {
   
   get(parsedUrl.query.title, (error, movie) => {
     if (error) return console.error(error);
+
     console.log(movie);
     
     render('movie', movie, (error, html) => {
